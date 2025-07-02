@@ -14,7 +14,6 @@ namespace core
 		const char* pathToIcon = nullptr;
 		int width = 640;
 		int height = 480;
-		int FPS = 75;
 		bool VerticalSynchronization = true;
 		bool resizable = false;
 		bool debugInfo = true;
@@ -33,8 +32,6 @@ namespace core
 		void getSizeWindow();
 
 		bool VSfps = true;
-		double time = 0.0;
-		unsigned int FPS = 75;
 
 	public:
 		/// @brief возвращает объект окна, тип GLFWwindow
@@ -87,8 +84,6 @@ namespace core
 		bool isContext();
 
 		void VerticalSynchronization(bool flag);
-
-		void setMaxFPS(unsigned int fps);
 	};
 }
 

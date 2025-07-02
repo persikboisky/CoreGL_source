@@ -15,31 +15,29 @@ namespace core
 
     public:
 
-        [[nodiscard]] static Timer create();
+        /// @brief создаёт таймер, и возвращает его объект
+        /// @return объект таймера (Timer)
+        static Timer create();
+
         ~Timer();
 
+        /// @brief запускает таймер
         void run();
+
+        /// @brief останавливает таймер
         void stop();
+
+        /// @brief сбрасывает таймер
         void reset();
 
-        [[nodiscard]] double getTime();
+        /// @brief возвращает время в секундах
+        /// @return время
+        [[nodiscard]] double getTime() const;
 
         void setTime(double time);
         void addTime(double time);
         void difTime(double time);
     };
-
-    namespace data 
-    {
-        [[nodiscard]] int getHours();
-        [[nodiscard]] int getMinutes();
-        [[nodiscard]] int getSeconds();
-        [[nodiscard]] int getMDay();
-        [[nodiscard]] int getYDay();
-        [[nodiscard]] int getWDay();
-        [[nodiscard]] std::string getWDayToSTR();
-        [[nodiscard]] int getYear();
-    }
 }
 
 #endif // !INCLUDE_UTIL_TIME_HPP_

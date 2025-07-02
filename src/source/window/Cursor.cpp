@@ -2,6 +2,7 @@
 #include "../../include/window/Window.hpp"
 #include "../../include/config.hpp"
 #include "../../include/file/png.hpp"
+#include "../../include/util/coders.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -95,7 +96,8 @@ Cursor::custom_cursor::custom_cursor(const char* pathToPng, int x, int y, GLFWwi
 	if (this->cursor_objs == nullptr)
 	{
 		std::cerr << "Failed: create cursor obj";
-		throw "FAILED_CREATE_CURSOR_OBJ";
+
+		throw coders(0x03);
 	}
 
 	if (CORE_INFO) std::cout << "OK: created cursor > " << pathToPng << std::endl;

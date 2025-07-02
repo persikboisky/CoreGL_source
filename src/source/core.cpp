@@ -3,6 +3,7 @@
 #include "../include/graphics/commons/vao.hpp"
 #include "../include/graphics/commons/shader.hpp"
 #include "../include/graphics/commons/texture.hpp"
+#include "../include/util/coders.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -12,8 +13,7 @@ void core::Core::Init()
 
 	if (!glfwInit())
 	{
-		std::cerr << "Failed init glfw" << std::endl;
-		throw "FAILED_INIT_GLFW";
+		throw core::coders(0x0);
 	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VERSION_MAJOR);

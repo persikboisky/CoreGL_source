@@ -129,9 +129,9 @@ Vector3 Vector3::normalize(const Vector3& vec3)
 Vector3 Vector3::cross(const Vector3& vec3_1, const Vector3& vec3_2)
 {
     return Vector3(
-        vec3_1.y * vec3_2.z - vec3_1.z * vec3_2.y,
-        vec3_1.z * vec3_2.x - vec3_1.x * vec3_2.z,
-        vec3_1.x * vec3_2.y - vec3_1.y * vec3_2.x);
+        vec3_1.y * vec3_2.z - vec3_2.y * vec3_1.z,
+        vec3_1.z * vec3_2.x - vec3_2.z * vec3_1.x,
+        vec3_1.x * vec3_2.y - vec3_2.x * vec3_1.y);
 }
 
 float Vector3::length(const Vector3& vec3)

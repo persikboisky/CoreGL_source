@@ -1,6 +1,7 @@
 #include "../../../include/graphics/commons/vao.hpp"
 #include "../../../include/util/vector.hpp"
 #include "../../../include/util/type.hpp"
+#include "../../../include/util/coders.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <vector>
@@ -20,16 +21,33 @@ unsigned int vao::getSelectId()
 
 void vao::bind(unsigned int id)
 {
-    glBindVertexArray(id);
-    vao::selectID = id;
+    try
+    {
+        glBindVertexArray(id);
+        vao::selectID = id;
+    }
+    catch (...)
+    {
+        throw coders(0x06);
+    }
 }
 
-unsigned int vao::create(float* data, int sizeOfByte)
+unsigned int vao::create(float *data, int sizeOfByte)
 {
     unsigned int VAO, VBO;
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+
+    if (VAO == -1)
+    {
+        throw coders(0x04);
+    }
+
+    if (VBO == -1)
+    {
+        throw coders(0x05);
+    }
 
     vao::idVAO.push_back(VAO);
     vao::idVBO.push_back(VBO);
@@ -50,21 +68,27 @@ unsigned int vao::create(float* data, int sizeOfByte)
 void vao::addAttribute(unsigned int id, int index, int n, int size, int indentation)
 {
     bind(id);
-    glVertexAttribPointer(
-        index, 
-        n, 
-        GL_FLOAT, 
-        GL_FALSE, 
-        size * sizeof(GLfloat),
-        (GLvoid*)(indentation * sizeof(GLfloat))
-    );
-    glEnableVertexAttribArray(index);
+    try
+    {
+        glVertexAttribPointer(
+            index,
+            n,
+            GL_FLOAT,
+            GL_FALSE,
+            size * sizeof(GLfloat),
+            (GLvoid *)(indentation * sizeof(GLfloat)));
+        glEnableVertexAttribArray(index);
+    }
+    catch (...)
+    {
+        throw coders(0x07);
+    }
     bind(0);
 }
 
 void vao::Delete(unsigned int id)
 {
-    unsigned int index = vector::searchElementForValue(vao::idVAO, id);
+    unsigned int index = vector::searchIndexFromValue(vao::idVAO, id);
 
     if (index != -1)
     {
@@ -85,23 +109,23 @@ void vao::DeleteALL()
     {
         glDeleteVertexArrays(1, &vao::idVAO[i]);
         glDeleteBuffers(1, &vao::idVBO[i]);
-        //vao::id[i] = 0;
+        // vao::id[i] = 0;
     }
 
     vao::idVAO.clear();
     vao::idVBO.clear();
 }
 
-void vao::draw(PRIMITIVE  Primitive, int first_vert, int count_vert)
+void vao::draw(PRIMITIVE Primitive, int first_vert, int count_vert)
 {
     glDrawArrays(convertPrimitive(Primitive), first_vert, count_vert);
 }
 
-void vao::draw(PRIMITIVE  Primitive, unsigned int VAO, int first_vert, int count_vert)
+void vao::draw(PRIMITIVE Primitive, unsigned int VAO, int first_vert, int count_vert)
 {
     bind(VAO);
     glDrawArrays(convertPrimitive(Primitive), first_vert, count_vert);
-    //bind(0);
+    // bind(0);
 }
 
 void vao::setSizePoints(float sizePixel)
@@ -118,14 +142,12 @@ void vao::setWidthLine(float width)
 
 #pragma region VAO
 
-VAO::VAO(float* data, int sizeOfByte, int elementToVert) :
-    elementToVert(elementToVert), size(sizeOfByte / sizeof(float))
+VAO::VAO(float *data, int sizeOfByte, int elementToVert) : elementToVert(elementToVert), size(sizeOfByte / sizeof(float))
 {
     this->id = vao::create(data, sizeOfByte);
 }
 
-VAO::VAO(std::vector<float> data, int elementToVert) :
-    elementToVert(elementToVert), size(data.size())
+VAO::VAO(std::vector<float> data, int elementToVert) : elementToVert(elementToVert), size(data.size())
 {
     this->id = vao::create(data);
 }
@@ -167,7 +189,8 @@ void VAO::draw(PRIMITIVE Primitive, int first_vert, int count_vert) const
 
 void core::VAO::setSizePoints(float sizePixel)
 {
-    this->sizePoint = sizePoint;;
+    this->sizePoint = sizePoint;
+    ;
 }
 
 void core::VAO::setWidthLine(float width)

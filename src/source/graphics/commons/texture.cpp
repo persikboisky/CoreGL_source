@@ -2,6 +2,7 @@
 #include "../../../include/config.hpp"
 #include "../../../include/util/vector.hpp"
 #include "../../../include/file/png.hpp"
+#include "../../../include/util/coders.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -15,11 +16,18 @@ std::vector<unsigned int> texture::id;
 
 void texture::bind(unsigned int id, unsigned int Sample)
 {
-    glActiveTexture(GL_TEXTURE0 + Sample);
-    glBindTexture(GL_TEXTURE_2D, id);
+    try
+    {
+        glActiveTexture(GL_TEXTURE0 + Sample);
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
+    catch (...)
+    {
+        throw coders(0x09);
+    }
 }
 
-unsigned int texture::load(unsigned char* image, int width, int height, int channels)
+unsigned int texture::load(unsigned char *image, int width, int height, int channels)
 {
     // glActiveTexture(GL_TEXTURE0);
     GLuint Texture;
@@ -35,8 +43,7 @@ unsigned int texture::load(unsigned char* image, int width, int height, int chan
     }
     else
     {
-        std::cerr << "Failed create Texture" << "\n";
-        throw "FAILED_CREATE_VAO";
+        throw coders(0x08);
     }
 
     bind(Texture);
@@ -60,25 +67,25 @@ unsigned int texture::load(unsigned char* image, int width, int height, int chan
 
     bind(0);
 
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return Texture;
 }
 
-unsigned int texture::load(std::vector<unsigned char>& png_code, int width, int height, int channels)
+unsigned int texture::load(std::vector<unsigned char> &png_code, int width, int height, int channels)
 {
     return texture::load(png_code.data(), width, height, channels);
 }
 
-unsigned int texture::load(const char* path)
+unsigned int texture::load(const char *path)
 {
     int t_width;
     int t_height;
     int t_channels;
 
-    unsigned char* text = png::load(path, t_width, t_height, t_channels);
+    unsigned char *text = png::load(path, t_width, t_height, t_channels);
     unsigned int texture_id = load(text, t_width, t_height, t_channels);
 
     png::Delete(text);
@@ -88,7 +95,7 @@ unsigned int texture::load(const char* path)
 
 void texture::Delete(unsigned int id)
 {
-    unsigned int index = vector::searchElementForValue(texture::id, id);
+    unsigned int index = vector::searchIndexFromValue(texture::id, id);
 
     if (index != -1)
     {
@@ -110,17 +117,17 @@ void texture::DeleteALL()
 #pragma endregion texture
 
 #pragma region Texture
-Texture::Texture(unsigned char* png_code, int width, int height, int channels)
+Texture::Texture(unsigned char *png_code, int width, int height, int channels)
 {
     this->id = texture::load(png_code, width, height, channels);
 }
 
-Texture::Texture(std::vector<unsigned char>& png_code, int width, int height, int channels)
+Texture::Texture(std::vector<unsigned char> &png_code, int width, int height, int channels)
 {
     this->id = texture::load(png_code.data(), width, height, channels);
 }
 
-Texture::Texture(const char* path)
+Texture::Texture(const char *path)
 {
     this->id = texture::load(path);
 }

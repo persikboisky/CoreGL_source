@@ -94,9 +94,9 @@ namespace core
 		/// @param name �������� ������� ����������
 		static void UniformSample2D(int value, const char* name);
 
-		static void UniformRGBA(const color::RGBA& color, const char* name);
+		static void UniformRGBA(const color::RGBA& color, const char* name, bool normalize = false);
 
-		static void UniformRGB(const color::RGB& color, const char* name);
+		static void UniformRGB(const color::RGB& color, const char* name, bool normalize = false);
 
 		/// @brief ������� ������ �� ��� �����������
 		/// @param id ����������
@@ -170,9 +170,9 @@ namespace core
 		/// @param name �������� ������� ����������		
 		void UniformSample2D(int value, const char* name) const;
 
-		void UniformRGBA(const color::RGBA& color, const char* name) const;
+		void UniformRGBA(const color::RGBA& color, const char* name, bool normalize = false) const;
 
-		void UniformRGB(const color::RGB& color, const char* name) const;
+		void UniformRGB(const color::RGB& color, const char* name, bool normalize = false) const;
 	};
 }
 

@@ -3,6 +3,7 @@
 #include "../../include/window/Cursor.hpp"
 #include "../../include/config.hpp"
 #include "../../include/file/png.hpp"
+#include "../../include/util/coders.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -41,9 +42,8 @@ static void createWindow(
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (window == nullptr)
 	{
-		std::cerr << "Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
-		throw "FAILED_CREATE_WINDOW";
+		throw coders(0x02);
 	}
 
 	if (debuginfo)
@@ -80,7 +80,6 @@ Window::Window(const windowInfo& info) : width(info.width), height(info.height)
 	{
 		this->setIcon(info.pathToIcon);
 	}
-	this->FPS = info.FPS;
 	this->VerticalSynchronization(info.VerticalSynchronization);
 }
 
@@ -95,17 +94,14 @@ void Window::swapBuffers()
 {
 	if (this->VSfps)
 	{
-		if (glfwGetTime() - time >= 1.0 / (double)this->FPS)
-		{
-			glfwSwapBuffers(this->window);
-			this->time = glfwGetTime();
-		}
+		glfwSwapInterval(1);
 	}
 	else
 	{
-		glfwSwapBuffers(this->window);
+		glfwSwapInterval(0);
 	}
 
+	glfwSwapBuffers(this->window);
 	this->getSizeWindow();
 }
 
@@ -146,7 +142,7 @@ void Window::setContext()
 			{
 				std::cerr << "Failed initializate GLEW" << std::endl;
 			}
-			throw "FAILED_INIT_GLEW";
+			throw coders(0x01);
 		}
 
 		Window::flagGLewInit = false;
@@ -172,9 +168,4 @@ bool Window::isContext()
 void Window::VerticalSynchronization(bool flag)
 {
 	this->VSfps = flag;
-}
-
-void core::Window::setMaxFPS(unsigned int fps)
-{
-	this->FPS = fps;
 }

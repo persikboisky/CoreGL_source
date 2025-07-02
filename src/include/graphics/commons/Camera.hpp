@@ -131,11 +131,15 @@ namespace core
         /// @param x переменная для хранения координаты x
         /// @param y переменная для хранения координаты y
         /// @param z переменная для хранения координаты z
-        void getTarget(float& x, float& y, float& z) const;
+        void getSTarget(float& x, float& y, float& z) const;
 
         /// @brief получает координату куда смотрит камера
         /// @param target вектор для хранения координат
+        void getSTarget(math::Vector3& target) const;
+
+        void getTarget(float& x, float& y, float& z) const;
         void getTarget(math::Vector3& target) const;
+        
 
         /// @brief создаёт матрицу проекции камеры
         /// @param width ширина окна

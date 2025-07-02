@@ -164,15 +164,15 @@ void shader::compileFromCode(TYPE_SHADER type, const char* code)
 
     if (type == VERTEX && shader::vID != 0)
     {
-        glDeleteProgram(shader::vID);
+        glDeleteShader(shader::vID);
     }
     else if (type == GEOMETRY && shader::gID != 0)
     {
-        glDeleteProgram(shader::gID);
+        glDeleteShader(shader::gID);
     }
     else if (type == FRAGMENT && shader::fID != 0)
     {
-        glDeleteProgram(shader::fID);
+        glDeleteShader(shader::fID);
     }
 
     GLint result = GL_FALSE;
@@ -280,7 +280,7 @@ void shader::use(unsigned int id)
 
 void shader::Delete(unsigned int id)
 {
-    unsigned int index = vector::searchElementForValue(shader::id, id);
+    unsigned int index = vector::searchIndexFromValue(shader::id, id);
 
     if (index != -1)
     {
@@ -334,14 +334,22 @@ void shader::UniformSample2D(int value, const char* name)
     glUniform1i(getLocateUniform(shader::SelectID, name), value);
 }
 
-void shader::UniformRGBA(const color::RGBA& color, const char* name)
+void shader::UniformRGBA(const color::RGBA& color, const char* name, bool normalize)
 {
-    shader::Uniform4F(math::Vector4(color.red, color.green, color.blue, color.alpha), name);
+    shader::Uniform4F(
+        (normalize) ?
+        math::Vector4(color.red, color.green, color.blue, color.alpha) / 255.0f :
+        math::Vector4(color.red, color.green, color.blue, color.alpha), name
+    );
 }
 
-void shader::UniformRGB(const color::RGB& color, const char* name)
+void shader::UniformRGB(const color::RGB& color, const char* name, bool normalize)
 {
-    shader::Uniform3F(math::Vector3(color.red, color.green, color.blue), name);
+    shader::Uniform3F(
+        (normalize) ?
+        math::Vector3(color.red, color.green, color.blue) / 255.0f :
+        math::Vector3(color.red, color.green, color.blue), name
+    );
 }
 
 #pragma endregion shader
@@ -438,18 +446,18 @@ void Shader::UniformSample2D(int value, const char* name) const
     shader::UniformSample2D(value, name);
 }
 
-void Shader::UniformRGBA(const color::RGBA& color, const char* name) const
+void Shader::UniformRGBA(const color::RGBA& color, const char* name, bool flag) const
 {
     if (shader::getSelectID() != this->id)
         this->use();
-    shader::UniformRGBA(color, name);
+    shader::UniformRGBA(color, name, flag);
 }
 
-void Shader::UniformRGB(const color::RGB& color, const char* name) const
+void Shader::UniformRGB(const color::RGB& color, const char* name, bool flag) const
 {
     if (shader::getSelectID() != this->id)
         this->use();
-    shader::UniformRGB(color, name);
+    shader::UniformRGB(color, name, flag);
 }
 
 #pragma endregion Shader

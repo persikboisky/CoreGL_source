@@ -105,7 +105,7 @@ void ebo::draw(PRIMITIVE Primitive, unsigned int ebo, VAO& vao, unsigned int nVe
 
 void ebo::Delete(unsigned int id)
 {
-	int index = vector::searchElementForValue(ebo::id, id);
+	int index = vector::searchIndexFromValue(ebo::id, id);
 
 	if (index != -1)
 	{

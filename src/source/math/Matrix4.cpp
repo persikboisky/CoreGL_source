@@ -198,7 +198,7 @@ Matrix4 Matrix4::getLookAt(Vector3 pos, Vector3 target, Vector3 up)
         xaxis.x, yaxis.x, zaxis.x, 0,
         xaxis.y, yaxis.y, zaxis.y, 0,
         xaxis.z, yaxis.z, zaxis.z, 0,
-        Vector3::dot(xaxis, pos), Vector3::dot(yaxis, pos), Vector3::dot(zaxis, pos), 1
+        -Vector3::dot(xaxis, pos), -Vector3::dot(yaxis, pos), -Vector3::dot(zaxis, pos), 1
     };
 
     return Matrix4(lookAT);

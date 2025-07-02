@@ -3,7 +3,7 @@
 
 using namespace core;
 
-int vector::searchElementForValue(std::vector<int> vec, int value)
+int vector::searchIndexFromValue(std::vector<int> vec, int value)
 {
 	int index;
 	bool flag = false;
@@ -27,7 +27,7 @@ int vector::searchElementForValue(std::vector<int> vec, int value)
 	return index;
 }
 
-int vector::searchElementForValue(std::vector<unsigned int> vec, unsigned int value)
+int vector::searchIndexFromValue(std::vector<unsigned int> vec, unsigned int value)
 {
 	int index;
 	bool flag = false;
@@ -50,7 +50,7 @@ int vector::searchElementForValue(std::vector<unsigned int> vec, unsigned int va
 	return index;
 }
 
-int vector::searchElementForValue(std::vector<unsigned short> vec, unsigned short value)
+int vector::searchIndexFromValue(std::vector<unsigned short> vec, unsigned short value)
 {
 	int index;
 	bool flag = false;

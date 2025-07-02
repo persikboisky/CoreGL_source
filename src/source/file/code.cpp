@@ -28,3 +28,17 @@ std::string core::code::load(const char* path)
 
     return text;
 }
+
+void core::code::write(const char* path, const std::string& code)
+{
+    std::ofstream file(path, std::ios::out);
+    if (file.is_open())
+    {
+        file << code;
+    }
+    else
+    {
+        throw "failed";
+    }
+    file.close();
+}

@@ -120,18 +120,32 @@ void Camera::getPos(Vector3& pos) const
 	pos.z = this->pos.z;
 }
 
-void Camera::getTarget(float& x, float& y, float& z) const
+void Camera::getSTarget(float& x, float& y, float& z) const
 {
 	x = this->startTARGET.x;
 	y = this->startTARGET.y;
 	z = this->startTARGET.z;
 }
 
-void Camera::getTarget(math::Vector3& target) const
+void Camera::getSTarget(math::Vector3& target) const
 {
 	target.x = this->startTARGET.x;
 	target.y = this->startTARGET.y;
 	target.z = this->startTARGET.z;
+}
+
+void Camera::getTarget(float& x, float& y, float& z) const
+{
+	x = this->target.x;
+	y = this->target.y;
+	z = this->target.z;
+}
+
+void core::Camera::getTarget(math::Vector3& target) const
+{
+	target.x = this->target.x;
+	target.y = this->target.y;
+	target.z = this->target.z;
 }
 
 Matrix4 Camera::getProj(int width, int height) const
