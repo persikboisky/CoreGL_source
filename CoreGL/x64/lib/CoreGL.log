@@ -1,0 +1,7 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(524,5): warning MSB8004: каталог Output заканчивается не косой чертой.  Этот экземпляр сборки добавит косую черту, поскольку она необходима для правильного определения каталога Output.
+  main.cpp
+W:\CoreGL_source\src\include\window\Cursor.hpp(27,16): warning C4091: static : пропускается слева от "core::Cursor::custom_cursor", когда ни одна переменная не объявлена
+  (компиляция исходного файла "src/main.cpp")
+  
+  coders.cpp
+  CoreGL.vcxproj -> W:\CoreGL_source\x64\CoreGL.lib

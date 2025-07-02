@@ -182,7 +182,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -240,6 +240,7 @@
     <ClCompile Include="src\source\math\Vector2.cpp" />
     <ClCompile Include="src\source\math\Vector3.cpp" />
     <ClCompile Include="src\source\math\Vector4.cpp" />
+    <ClCompile Include="src\source\util\coders.cpp" />
     <ClCompile Include="src\source\util\time.cpp" />
     <ClCompile Include="src\source\util\type.cpp" />
     <ClCompile Include="src\source\util\vector.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="src\include\math\math.hpp" />
     <ClInclude Include="src\include\math\Matrix4.hpp" />
     <ClInclude Include="src\include\math\Vectors.hpp" />
+    <ClInclude Include="src\include\util\coders.hpp" />
     <ClInclude Include="src\include\util\time.hpp" />
     <ClInclude Include="src\include\util\type.hpp" />
     <ClInclude Include="src\include\util\vector.hpp" />

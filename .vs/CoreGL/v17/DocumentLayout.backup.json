@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "W:\\CoreGL_source\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{11BED725-DE45-4A8D-AF52-3C9E9A549542}|CoreGL.vcxproj|W:\\CoreGL_source\\src\\source\\window\\Window.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{11BED725-DE45-4A8D-AF52-3C9E9A549542}|CoreGL.vcxproj|solutionrelative:src\\source\\window\\Window.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11BED725-DE45-4A8D-AF52-3C9E9A549542}|CoreGL.vcxproj|W:\\CoreGL_source\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{11BED725-DE45-4A8D-AF52-3C9E9A549542}|CoreGL.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Window.cpp",
+              "DocumentMoniker": "W:\\CoreGL_source\\src\\source\\window\\Window.cpp",
+              "RelativeDocumentMoniker": "src\\source\\window\\Window.cpp",
+              "ToolTip": "W:\\CoreGL_source\\src\\source\\window\\Window.cpp",
+              "RelativeToolTip": "src\\source\\window\\Window.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-07-02T20:25:48.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "main.cpp",
+              "DocumentMoniker": "W:\\CoreGL_source\\src\\main.cpp",
+              "RelativeDocumentMoniker": "src\\main.cpp",
+              "ToolTip": "W:\\CoreGL_source\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-07-02T20:23:54.793Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
