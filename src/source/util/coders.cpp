@@ -12,6 +12,7 @@ const std::string INFO_CODERS[] = {
 	"FAILED_ADD_VAO_ATTRIBUTE"	// 0x07
 	"FAILED_CREATE_TEXTURE"		// 0x08
 	"FAILED_BIND_TEXTURE" 		// 0x09
+	"FAILED_INIT_MONITOR"		// 0x0A
 };
 
 using namespace core;

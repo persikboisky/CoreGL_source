@@ -1,9 +1,11 @@
 #include "../../include/window/Window.hpp"
 #include "../../include/window/Event.hpp"
 #include "../../include/window/Cursor.hpp"
+#include "../../include/window/Monitor.hpp"
 #include "../../include/config.hpp"
 #include "../../include/file/png.hpp"
 #include "../../include/util/coders.hpp"
+#include "../../include/math/Vectors.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -28,13 +30,13 @@ inline void Window::getSizeWindow()
 	glfwGetWindowSize(this->window, &this->width, &this->height);
 }
 
-GLFWwindow* Window::getGlfwWindowObject()
+GLFWwindow* Window::getGLFWWindowObject()
 {
 	return this->window;
 }
 
 static void createWindow(
-	GLFWwindow*& window, int width, int height,
+	GLFWwindow*& window, const GLFWvidmode*& vidMode, int width, int height,
 	const char* title, bool resizable, bool debuginfo
 )
 {
@@ -50,6 +52,22 @@ static void createWindow(
 	{
 		std::cout << "[" << glfwGetTime() << "] " << "OK: to create GLFW Window" << std::endl;
 	}
+
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	if (monitor == nullptr) 
+	{
+
+	}
+
+	vidMode = glfwGetVideoMode(monitor);
+	if (vidMode == nullptr) 
+	{
+
+	}
+
+	// std::cout << glfwGetMonitorName(monitor) << std::endl;
+	
+	// glfwSetWindowMonitor()
 }
 
 Window::Window(int width, int height, const char* title, bool resizable) :
@@ -57,11 +75,13 @@ Window::Window(int width, int height, const char* title, bool resizable) :
 {
 	createWindow(
 		this->window,
+		this->vidMode,
 		width, height,
 		title,
 		resizable,
 		CORE_INFO
 	);
+
 	this->Init();
 }
 
@@ -69,6 +89,7 @@ Window::Window(const windowInfo& info) : width(info.width), height(info.height)
 {
 	createWindow(
 		this->window,
+		this->vidMode,
 		info.width,
 		info.height,
 		info.title,
@@ -76,11 +97,33 @@ Window::Window(const windowInfo& info) : width(info.width), height(info.height)
 		info.debugInfo
 	);
 	this->Init();
+
 	if (info.pathToIcon != nullptr)
 	{
 		this->setIcon(info.pathToIcon);
 	}
+
 	this->VerticalSynchronization(info.VerticalSynchronization);
+
+	if (info.posX != -1 || info.posY != -1) 
+	{
+		glfwSetWindowPos(this->window, info.posX, info.posY);
+	}
+}
+
+Window Window::create(const windowInfo& info)
+{
+	return Window(info);
+}
+
+Window Window::create(int width, int height, const char* title, bool resizable)
+{
+	windowInfo winInfo = {};
+	winInfo.width = width;
+	winInfo.height = height;
+	winInfo.title = title;
+	winInfo.resizable = resizable;
+	return Window(winInfo);
 }
 
 Window::~Window()
@@ -168,4 +211,28 @@ bool Window::isContext()
 void Window::VerticalSynchronization(bool flag)
 {
 	this->VSfps = flag;
+}
+
+void Window::setPos(int posX, int posY) 
+{
+	glfwSetWindowPos(this->window, posX, posY);
+}
+
+void Window::setPos(const math::Vector2& pos)
+{
+	this->setPos(pos.x, pos.y);
+}
+
+GLFWwindow* Window::getWindowContext()
+{
+	return glfwGetCurrentContext();
+}
+
+void Window::setMonitor(Monitor monitor)
+{
+	glfwSetWindowMonitor(this->window, monitor.getGLFWObj(), 0, 0, this->width, this->height, 75);
+}
+
+void Window::resetMonitor()
+{
 }

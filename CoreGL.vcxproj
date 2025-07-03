@@ -228,6 +228,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\source\core.cpp" />
+    <ClCompile Include="src\source\file\bin.cpp" />
     <ClCompile Include="src\source\file\code.cpp" />
     <ClCompile Include="src\source\file\png.cpp" />
     <ClCompile Include="src\source\graphics\commons\Camera.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="src\source\util\vector.cpp" />
     <ClCompile Include="src\source\window\Cursor.cpp" />
     <ClCompile Include="src\source\window\Event.cpp" />
+    <ClCompile Include="src\source\window\Monitor.cpp" />
     <ClCompile Include="src\source\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +271,7 @@
     <ClInclude Include="src\include\util\vector.hpp" />
     <ClInclude Include="src\include\window\Cursor.hpp" />
     <ClInclude Include="src\include\window\Event.hpp" />
+    <ClInclude Include="src\include\window\Monitor.hpp" />
     <ClInclude Include="src\include\window\Window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

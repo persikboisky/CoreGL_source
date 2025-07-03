@@ -31,7 +31,7 @@ Cursor::Cursor(GLFWwindow& addrWindow) : window(&addrWindow)
 {
 }
 
-Cursor::Cursor(Window& window) : window(window.getGlfwWindowObject())
+Cursor::Cursor(Window& window) : window(window.getGLFWWindowObject())
 {
 }
 

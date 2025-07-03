@@ -37,7 +37,7 @@ Event::Event(GLFWwindow& addrWindow) : window(&addrWindow)
 	memset(this->saveKey, false, MAX_KEY_CODE);
 }
 
-Event::Event(Window& window) : window(window.getGlfwWindowObject())
+Event::Event(Window& window) : window(window.getGLFWWindowObject())
 {
 	this->setCallbackKey(key_callbac);
 	memset(this->saveKey, false, MAX_KEY_CODE);

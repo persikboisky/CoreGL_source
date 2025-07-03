@@ -2,11 +2,18 @@
 #define INCLUDE_WINDOW_WINDOW_HPP_
 
 struct GLFWwindow;
+struct GLFWvidmode;
 
 namespace core
 {
 	class Event;
 	class Cursor;
+	class Monitor;
+
+	namespace math
+	{
+		class Vector2;
+	}
 
 	struct windowInfo
 	{
@@ -17,6 +24,8 @@ namespace core
 		bool VerticalSynchronization = true;
 		bool resizable = false;
 		bool debugInfo = true;
+		int posX = -1;
+		int posY = -1;
 
 		windowInfo();
 	};
@@ -25,6 +34,7 @@ namespace core
 	{
 	private:
 		GLFWwindow* window = nullptr;
+		const GLFWvidmode* vidMode;
 
 		static bool flagGLewInit;
 
@@ -33,57 +43,63 @@ namespace core
 
 		bool VSfps = true;
 
+		Window(int width, int height, const char* title = "", bool resizable = true);
+		Window(const windowInfo& info);
+
 	public:
-		/// @brief возвращает объект окна, тип GLFWwindow
-		GLFWwindow* getGlfwWindowObject();
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ GLFWwindow
+		GLFWwindow* getGLFWWindowObject();
 
 		Event* event = nullptr;
 		Cursor* cursor = nullptr;
 
-		/// @brief текущая ширина окна (обновляется при вызове swapBuffers)
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ swapBuffers)
 		int width;
 
-		/// @brief текущая высота окна (обновляется при вызове swapBuffers)
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ swapBuffers)
 		int height;
 
-		/// @brief конструктор окна (создаёт окно и его объект)
-		/// @param width     ширина 
-		/// @param height    высота 
-		/// @param title     заголовок
-		/// @param resizable разрешение на изменение размера окна
-		Window(int width, int height, const char* title = "", bool resizable = true);
-		Window(const windowInfo& info);
+		static Window create(const windowInfo& info);
+		static Window create(int width, int height, const char* title = "", bool resizable = true);
 
 		~Window();
 
-		/// @brief сменяет буферы кадра.
-		/// В openGL два буфера на одном мы рисуем, другой отображается на экране.
-		/// swapBuffers() - меняяет буферы местами.
-		/// Теперь отображается тот, на котором мы рисовали,
-		/// а рисуем мы на том, который отображался.
-		/// Расписал как мог : )
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+		/// пїЅ openGL пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+		/// swapBuffers() - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+		/// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+		/// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+		/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ : )
 		void swapBuffers();
 
-		/// @brief устанавливает иконку для окна
-		/// @param path путь к png картинке
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+		/// @param path пїЅпїЅпїЅпїЅ пїЅ png пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		void setIcon(const char* path);
 
-		/// @brief вызывает событие закрытия окна
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		void close();
 
-		/// @brief делает окна контекстом (То где мы рисуем)
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
 		void setContext();
 
-		/// @brief устанавливает размер буфера кадра
-		/// @param width  ширина
-		/// @param height высота
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+		/// @param width  
+		/// @param height пїЅпїЅпїЅпїЅпїЅпїЅ
 		void setSizeBuffer(int width, int height);
 
-		/// @brief проверяет является ли окно контекстом
-		/// @return true - если является, false - если не является
+		/// @brief пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		/// @return true - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, false - пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		bool isContext();
 
 		void VerticalSynchronization(bool flag);
+
+		void setPos(int posX, int posY);
+		void setPos(const math::Vector2& pos);
+
+		static GLFWwindow* getWindowContext();
+
+		void setMonitor(Monitor monitor);
+		void resetMonitor();
 	};
 }
 

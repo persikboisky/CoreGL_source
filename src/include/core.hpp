@@ -4,6 +4,7 @@
 #include "window/Window.hpp"
 #include "window/Event.hpp"
 #include "window/Cursor.hpp"
+#include "window/Monitor.hpp"
 #include "util/type.hpp"
 #include "util/vector.hpp"
 #include "util/time.hpp"
