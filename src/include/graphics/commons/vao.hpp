@@ -6,6 +6,7 @@
 namespace core
 {
 	enum PRIMITIVE;
+	class VAO;
 
 	/// @brief структура для работы с vao
 	struct vao

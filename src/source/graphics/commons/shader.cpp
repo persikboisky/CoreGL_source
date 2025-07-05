@@ -7,6 +7,8 @@
 #include "../../../include/math/Vectors.hpp"
 #include "../../../include/graphics/commons/Camera.hpp"
 #include "../../../include/window/Window.hpp"
+#include "../../../include/util/coders.hpp"
+#include "../../../include/util/console.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -36,8 +38,7 @@ static inline GLint getLocateUniform(GLuint shader, const char* name)
     }
     else
     {
-        std::cerr << "Failed locate Uniform: " << name << std::endl;
-        throw "Failed locate Uniform";
+        throw coders(0x0B, name);
     }
 }
 
@@ -63,16 +64,16 @@ unsigned int shader::getSelectID()
     {
         char* errorMessage = new char[infoLogLength + 1];
         glGetShaderInfoLog(vertexShaderID, infoLogLength, NULL, errorMessage);
-        std::cerr << errorMessage;
+        std::string err = errorMessage;
         delete[] errorMessage;
-        throw "FAILED_COMPILE_VERTEX_SHADER";
+        throw coders(0x0C, err);
     }
 
     if (CORE_INFO)
     {
-        std::cout << "[" << glfwGetTime() << "] " << "OK: compile vertex shader"
-            ": "
-            << VertPath << std::endl;
+        console::printTime();
+        std::cout << "OK: compile vertex shader : ";
+        std::cout << VertPath << std::endl;
     }
 
     glShaderSource(fragmentShaderID, 1, &codeFrag, NULL);
@@ -84,16 +85,15 @@ unsigned int shader::getSelectID()
     {
         char* errorMessage = new char[infoLogLength + 1];
         glGetShaderInfoLog(fragmentShaderID, infoLogLength, NULL, errorMessage);
-        std::cerr << errorMessage;
+        std::string err = errorMessage;
         delete[] errorMessage;
-        throw "FAILED_COMPILE_FRAGMENT_SHADER";
+        throw coders(0x0D, err);
     }
     else
     {
-        std::cout << "[" << glfwGetTime() << "] " << "OK: compile fragment shader"
-            ": "
-            << FragPath << std::endl;
-        // std::cout << coreInfo << std::endl;
+        console::printTime();
+        std::cout << "OK: compile fragment shader : ";
+        std::cout << FragPath << std::endl;
     }
 
     unsigned int programID = glCreateProgram();
@@ -107,16 +107,17 @@ unsigned int shader::getSelectID()
     {
         char* errorMessage = new char[infoLogLength + 1];
         glGetProgramInfoLog(programID, infoLogLength, NULL, errorMessage);
-        std::cerr << errorMessage;
+        std::string err = errorMessage;
         delete[] errorMessage;
-        throw "FAILED_LINK_SHADER_PROGRAM";
+        throw coders(0x0E, err);
     }
-
+  
     glDeleteShader(vertexShaderID);
     glDeleteShader(fragmentShaderID);
 
-    std::cout << "[" << glfwGetTime() << "] " << "OK: create shader program, id = "
-        << programID << std::endl;
+    console::printTime();
+    std::cout << "OK: create shader program, id = ";
+    std::cout << programID << std::endl;
 
     shader::id.push_back(programID);
     return programID;
@@ -188,16 +189,20 @@ void shader::compileFromCode(TYPE_SHADER type, const char* code)
     {
         char* errorMessage = new char[infoLogLength + 1];
         glGetShaderInfoLog(id, infoLogLength, NULL, errorMessage);
-        std::cerr << errorMessage;
+        std::string err = errorMessage;
         delete[] errorMessage;
-        std::cout << "[" << glfwGetTime() << "]";
-        std::cout << "Failed: compile " << nameShaderFromType(type) << " shader" << std::endl;
-        throw "FAILED_COMPILE_SHADER";
+
+        switch (type)
+        {
+        case core::FRAGMENT: throw coders(0x0D, err);
+        case core::GEOMETRY: throw coders(0x0F, err);
+        case core::VERTEX: throw coders(0x0C, err);
+        }
     }
 
     if (CORE_INFO)
     {
-        std::cout << "[" << glfwGetTime() << "] ";
+        console::printTime();
         std::cout << "Ok: compile " << nameShaderFromType(type) << " shader" << std::endl;
     }
 
@@ -241,9 +246,9 @@ void shader::compileFromFile(TYPE_SHADER type, const char* path)
     {
         char* errorMessage = new char[infoLogLength + 1];
         glGetProgramInfoLog(programID, infoLogLength, NULL, errorMessage);
-        std::cerr << errorMessage;
+        std::string err = errorMessage;
         delete[] errorMessage;
-        throw "FAILED_LINK_SHADER_PROGRAM";
+        throw coders(0x0E, err);
     }
 
     if (shader::vID > 0)
@@ -264,7 +269,7 @@ void shader::compileFromFile(TYPE_SHADER type, const char* path)
 
     if (CORE_INFO)
     {
-        std::cout << "[" << glfwGetTime() << "] ";
+        console::printTime();
         std::cout << "OK: create shader program, id = " << programID << std::endl;
     }
 
@@ -408,7 +413,7 @@ void core::Shader::UniformCamMat4(const Camera& camera, const Window& window, co
 {
     if (shader::getSelectID() != this->id)
         this->use();
-    shader::UniformCamMat4(camera, window.width, window.height, name);
+    shader::UniformCamMat4(camera, window.getWidth(), window.getHeight(), name);
 }
 
 void Shader::Uniform1F(const float value, const char* name) const

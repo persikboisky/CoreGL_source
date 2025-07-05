@@ -242,6 +242,7 @@
     <ClCompile Include="src\source\math\Vector3.cpp" />
     <ClCompile Include="src\source\math\Vector4.cpp" />
     <ClCompile Include="src\source\util\coders.cpp" />
+    <ClCompile Include="src\source\util\console.cpp" />
     <ClCompile Include="src\source\util\time.cpp" />
     <ClCompile Include="src\source\util\type.cpp" />
     <ClCompile Include="src\source\util\vector.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="src\include\math\Matrix4.hpp" />
     <ClInclude Include="src\include\math\Vectors.hpp" />
     <ClInclude Include="src\include\util\coders.hpp" />
+    <ClInclude Include="src\include\util\console.hpp" />
     <ClInclude Include="src\include\util\time.hpp" />
     <ClInclude Include="src\include\util\type.hpp" />
     <ClInclude Include="src\include\util\vector.hpp" />
@@ -273,6 +275,10 @@
     <ClInclude Include="src\include\window\Event.hpp" />
     <ClInclude Include="src\include\window\Monitor.hpp" />
     <ClInclude Include="src\include\window\Window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="main.frag" />
+    <None Include="main.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

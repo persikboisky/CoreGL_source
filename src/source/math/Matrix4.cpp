@@ -130,48 +130,25 @@ Matrix4 Matrix4::getTranslate(const Vector3& vecTranslate, const Matrix4& mat4)
 
 Matrix4 Matrix4::getRotate(float angle, const Vector3& axises, const Matrix4& mat4)
 {
-    const float COS = cos(angle);
-    const float SIN = sin(angle);
+    float s = sin(angle);
+    float c = cos(angle);
+    float t = 1.0f - c;
 
-    float TranslateMatX[16] = {
-        1, 0, 0, 0,
-        0, COS, -SIN, 0,
-        0, SIN, COS, 0,
-        0, 0, 0, 1
+    float tx = t * axises.x;
+    float ty = t * axises.y;
+    float tz = t * axises.z;
+    float sx = s * axises.x;
+    float sy = s * axises.y;
+    float sz = s * axises.z;
+
+    float rot[16] = {
+        tx * axises.x + c, tx * axises.y - sz, tx * axises.z + sy, 0.0f,
+        tx * axises.y + sz, ty * axises.y + c, ty * axises.z - sx, 0.0f,
+        tx * axises.z - sy, ty * axises.z + sx, tz * axises.z + c, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f 
     };
 
-    float TranslateMatY[16] = {
-        COS, 0, -SIN, 0,
-        0, 1, 0, 0,
-        SIN, 0, COS, 0,
-        0, 0, 0, 1
-    };
-
-    float TranslateMatZ[16] = {
-        COS, -SIN, 0, 0,
-        SIN, COS, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-
-    Matrix4 rotate = Matrix4(1.0f);
-
-    if (axises.x != 0)
-    {
-        rotate *= Matrix4(TranslateMatX);
-    }
-
-    if (axises.y != 0)
-    {
-        rotate *= Matrix4(TranslateMatY);
-    }
-
-    if (axises.z != 0)
-    {
-        rotate *= Matrix4(TranslateMatZ);
-    }
-
-    return Matrix4(rotate) * mat4;
+    return Matrix4(rot) * mat4;
 }
 
 Matrix4 Matrix4::getPerspective(float fovToRadians, float aspect, float near, float far)

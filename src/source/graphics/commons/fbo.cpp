@@ -6,6 +6,11 @@
 
 using namespace core;
 
+int fbo::x = 0;
+int fbo::y = 0;
+int fbo::width = 600;
+int fbo::height = 600;
+
 void fbo::DepthTest(bool flag)
 {
 	if (flag)
@@ -18,19 +23,38 @@ void fbo::DepthTest(bool flag)
 	}
 }
 
+void fbo::update()
+{
+	glViewport(fbo::x, fbo::y, fbo::width, fbo::height);
+}
+
 void fbo::setSize(int width, int height)
 {
-	glViewport(0, 0, width, height);
+	fbo::width = width;
+	fbo::height = height;
+	fbo::update();
 }
 
-void core::fbo::setSize(math::Vector2 size)
+void fbo::setSize(const size2i& size)
 {
-	fbo::setSize(size.x, size.y);
+	fbo::setSize(size.width, size.height);
 }
 
-void fbo::setColor(color::RGB color, bool normilize)
+void fbo::setPos(int x, int y)
 {
-	if (normilize)
+	fbo::x = x;
+	fbo::y = y;
+	fbo::update();
+}
+
+void fbo::setPos(const pos2i& pos)
+{
+	fbo::setPos(pos.x, pos.y);
+}
+
+void fbo::setColor(color::RGB color, bool normalize)
+{
+	if (normalize)
 	{
 		color.red /= 255.0f;
 		color.green /= 255.0f;
@@ -45,9 +69,9 @@ void fbo::setColor(color::RGB color, bool normilize)
 	);
 }
 
-void fbo::setColor(color::RGBA color, bool normilize)
+void fbo::setColor(color::RGBA color, bool normalize)
 {
-	if (normilize)
+	if (normalize)
 	{
 		color.red /= 255.0f;
 		color.green /= 255.0f;

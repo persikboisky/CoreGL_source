@@ -84,6 +84,9 @@
     <ClCompile Include="src\source\window\Monitor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\source\util\console.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\core.hpp">
@@ -152,5 +155,12 @@
     <ClInclude Include="src\include\window\Monitor.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\util\console.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="main.vert" />
+    <None Include="main.frag" />
   </ItemGroup>
 </Project>

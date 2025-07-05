@@ -6,13 +6,21 @@
 namespace core
 {
 
-	namespace math
-	{
-		class Vector2;
-	}
+	struct size2i;
+	struct pos2i;
 
 	struct fbo
 	{
+	private:
+		static int x;
+		static int y;
+		static int width;
+		static int height;
+
+		static void update();
+
+	public:
+
 		/// @brief включает Z-буфер
 		/// @param flag состояние(true - включенно, false - выключенно)
 		static void DepthTest(bool flag);
@@ -21,11 +29,14 @@ namespace core
 		/// @param width ширина
 		/// @param height высота
 		static void setSize(int width, int height);
-		static void setSize(math::Vector2 size);
+		static void setSize(const size2i& size);
 
-		static void setColor(color::RGB color, bool normilize = true);
-		static void setColor(color::RGBA color, bool normilize = true);
-		static void setColor(float red, float green, float blue, float alpha, bool normilize = true);
+		static void setPos(int x, int y);
+		static void setPos(const pos2i& pos);
+
+		static void setColor(color::RGB color, bool normalize = true);
+		static void setColor(color::RGBA color, bool normalize = true);
+		static void setColor(float red, float green, float blue, float alpha, bool normalize = true);
 		static void setColor(const color::COLOR& color);
 
 		/// @brief чистит указанный(ные) буфер(ы)
@@ -34,8 +45,8 @@ namespace core
 		/// @param buffer3 буфер (необязательно)
 		static void clearBuffers(Buffer buffer1, Buffer beffer2 = NONE, Buffer buffer3 = NONE);
 
-		static unsigned int create(unsigned int idT);
-		static unsigned int create();
+		//static unsigned int create(unsigned int idT);
+		//static unsigned int create();
 
 	};
 }

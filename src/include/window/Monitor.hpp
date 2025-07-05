@@ -31,6 +31,7 @@ namespace core
 
 	public:
 		Monitor();
+		~Monitor();
 
 		size2f getPhysicalSize();
 		size2f getSize();

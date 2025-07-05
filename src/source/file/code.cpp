@@ -1,5 +1,7 @@
 #include "../../include/file/code.hpp"
 #include "../../include/config.hpp"
+#include "../../include/util/console.hpp"
+#include "../../include/util/coders.hpp"
 #include <GLFW/glfw3.h>
 #include <string>
 #include <fstream>
@@ -19,12 +21,14 @@ std::string core::code::load(const char* path)
     }
     else
     {
-        std::cerr << "Failed read file: " << path << std::endl;
-        throw "FAILED_READ_FILE";
+        throw coders(0x1A, path);
     }
 
-    if (CORE_INFO) std::cout << "[" << glfwGetTime() << "] "
-        << "OK: read file: " << path << std::endl;
+    if (CORE_INFO)
+    {
+        console::printTime();
+        std::cout << "OK: read file: " << path << std::endl;
+    }
 
     return text;
 }

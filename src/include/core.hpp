@@ -9,6 +9,7 @@
 #include "util/vector.hpp"
 #include "util/time.hpp"
 #include "util/coders.hpp"
+#include "util/console.hpp"
 #include "file/png.hpp"
 #include "file/code.hpp"
 #include "file/bin.hpp"

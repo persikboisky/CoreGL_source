@@ -187,13 +187,13 @@ void VAO::draw(PRIMITIVE Primitive, int first_vert, int count_vert) const
     }
 }
 
-void core::VAO::setSizePoints(float sizePixel)
+void VAO::setSizePoints(float sizePixel)
 {
     this->sizePoint = sizePoint;
     ;
 }
 
-void core::VAO::setWidthLine(float width)
+void VAO::setWidthLine(float width)
 {
     this->widthLine = width;
 }

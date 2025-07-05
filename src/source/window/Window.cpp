@@ -6,6 +6,9 @@
 #include "../../include/file/png.hpp"
 #include "../../include/util/coders.hpp"
 #include "../../include/math/Vectors.hpp"
+#include "../../include/util/console.hpp"
+#include "../../include/util/type.hpp"
+#include "../../include/graphics/commons/fbo.hpp"
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -50,20 +53,21 @@ static void createWindow(
 
 	if (debuginfo)
 	{
-		std::cout << "[" << glfwGetTime() << "] " << "OK: to create GLFW Window" << std::endl;
+		console::printTime();
+		std::cout << "OK: to create GLFW Window" << std::endl;
 	}
 
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	if (monitor == nullptr) 
-	{
+	//GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	//if (monitor == nullptr) 
+	//{
 
-	}
+	//}
 
-	vidMode = glfwGetVideoMode(monitor);
-	if (vidMode == nullptr) 
-	{
+	//vidMode = glfwGetVideoMode(monitor);
+	//if (vidMode == nullptr) 
+	//{
 
-	}
+	//}
 
 	// std::cout << glfwGetMonitorName(monitor) << std::endl;
 	
@@ -71,7 +75,7 @@ static void createWindow(
 }
 
 Window::Window(int width, int height, const char* title, bool resizable) :
-	width(width), height(height)
+	width(width), height(height), debugInfo(CORE_INFO)
 {
 	createWindow(
 		this->window,
@@ -85,7 +89,7 @@ Window::Window(int width, int height, const char* title, bool resizable) :
 	this->Init();
 }
 
-Window::Window(const windowInfo& info) : width(info.width), height(info.height)
+Window::Window(const windowInfo& info) : width(info.width), height(info.height), debugInfo(info.debugInfo)
 {
 	createWindow(
 		this->window,
@@ -131,6 +135,21 @@ Window::~Window()
 	delete this->cursor;
 	delete this->event;
 	glfwDestroyWindow(this->window);
+}
+
+int Window::getWidth() const
+{
+	return this->width;
+}
+
+int Window::getHeight() const
+{
+	return this->height;
+}
+
+size2i Window::getSize()
+{
+	return size2i(this->width, this->height);
 }
 
 void Window::swapBuffers()
@@ -179,13 +198,19 @@ void Window::setContext()
 		{
 			if (glewErr == GLEW_ERROR_NO_GLX_DISPLAY)
 			{
-				std::cerr << "Failed initializate GLEW error 240" << std::endl;
+				throw coders(0x01, "Failed initializate GLEW error 240");
 			}
 			else
 			{
-				std::cerr << "Failed initializate GLEW" << std::endl;
+				throw coders(0x01, "Failed initializate GLEW");
 			}
-			throw coders(0x01);
+			
+		}
+
+		if (this->debugInfo)
+		{
+			console::printTime();
+			std::cout << "Ok: init glew" << std::endl;
 		}
 
 		Window::flagGLewInit = false;
@@ -196,7 +221,38 @@ void Window::setContext()
 
 void Window::setSizeBuffer(int width, int height)
 {
-	glViewport(0, 0, width, height);
+	if (!this->isContext())
+	{
+		this->setContext();
+	}
+	fbo::setSize(width, height);
+}
+
+void Window::setSizeBuffer(const size2i& size)
+{
+	if (!this->isContext())
+	{
+		this->setContext();
+	}
+	fbo::setSize(size);
+}
+
+void Window::setPosBuffer(int x, int y)
+{
+	if (!this->isContext())
+	{
+		this->setContext();
+	}
+	fbo::setPos(x, y);
+}
+
+void Window::setPosBuffer(const pos2i& pos)
+{
+	if (!this->isContext())
+	{
+		this->setContext();
+	}
+	fbo::setPos(pos);
 }
 
 bool Window::isContext()
@@ -218,9 +274,19 @@ void Window::setPos(int posX, int posY)
 	glfwSetWindowPos(this->window, posX, posY);
 }
 
-void Window::setPos(const math::Vector2& pos)
+void Window::setPos(const pos2i& pos)
 {
 	this->setPos(pos.x, pos.y);
+}
+
+void Window::setSize(int width, int height)
+{
+	glfwSetWindowSize(this->window, width, height);
+}
+
+void Window::setSize(const size2i& size)
+{
+	glfwSetWindowSize(this->window, size.width, size.height);
 }
 
 GLFWwindow* Window::getWindowContext()
@@ -235,4 +301,5 @@ void Window::setMonitor(Monitor monitor)
 
 void Window::resetMonitor()
 {
+	glfwSetWindowMonitor(this->window, nullptr, 0, 0, this->width, this->height, GLFW_DONT_CARE);
 }

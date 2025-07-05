@@ -39,6 +39,11 @@ Monitor::Monitor() : count(0), primaryCount(-1)
 	}
 }
 
+Monitor::~Monitor()
+{
+	this->vidModes.clear();
+}
+
 size2f Monitor::getPhysicalSize()
 {
 	int width;

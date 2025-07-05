@@ -193,6 +193,15 @@ namespace core
 		pos2f(float x, float y) : x(x), y(y) {}
 	};
 
+	struct pos2i final
+	{
+		int x = 0;
+		int y = 0;
+
+		pos2i() {}
+		pos2i(int x, int y) : x(x), y(y) {}
+	};
+
 	struct pos3f final
 	{
 		float x = 0;
@@ -221,6 +230,17 @@ namespace core
 
 		size2f() {}
 		size2f(float width, float height) : width(width), height(height)
+		{
+		}
+	};
+
+	struct size2i final
+	{
+		int width = 0;
+		int height = 0;
+
+		size2i() {}
+		size2i(int width, int height) : width(width), height(height)
 		{
 		}
 	};

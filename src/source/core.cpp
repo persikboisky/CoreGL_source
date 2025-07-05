@@ -4,6 +4,7 @@
 #include "../include/graphics/commons/shader.hpp"
 #include "../include/graphics/commons/texture.hpp"
 #include "../include/util/coders.hpp"
+#include "../include/util/console.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -13,7 +14,7 @@ void core::Core::Init()
 
 	if (!glfwInit())
 	{
-		throw core::coders(0x0);
+		throw core::coders(0x00);
 	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VERSION_MAJOR);
@@ -21,7 +22,11 @@ void core::Core::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, WINDOW_RESIZABLE);
 
-	if (CORE_INFO) std::cout << "[0.0]      " << "OK: init glfw" << std::endl;
+	if (CORE_INFO)
+	{
+		console::printTime();
+		std::cout << "OK: init glfw" << std::endl;
+	}
 }
 
 double core::Core::GetTime()
