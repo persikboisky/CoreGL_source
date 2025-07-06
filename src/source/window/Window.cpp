@@ -15,6 +15,8 @@
 #include <iostream>
 using namespace core;
 
+constexpr int HEIGHT_HEAD_WINDOW = 30;
+
 windowInfo::windowInfo()
 {
 	this->debugInfo = CORE_INFO;
@@ -100,7 +102,7 @@ Window::Window(const windowInfo& info) : width(info.width), height(info.height),
 		glfwSetWindowPos(this->window, info.posX, info.posY);
 	}
 
-	glfwGetWindowPos(this->window, &this->width, &this->height);
+	glfwGetWindowPos(this->window, &this->posX, &this->posY);
 }
 
 Window Window::create(const windowInfo& info)
@@ -255,6 +257,8 @@ void Window::VerticalSynchronization(bool flag)
 
 void Window::setPos(int posX, int posY) 
 {
+	this->posX = posX;
+	this->posY = posY;
 	glfwSetWindowPos(this->window, posX, posY);
 }
 
@@ -268,9 +272,66 @@ void Window::setPos(const POSITION& pos)
 	switch (pos)
 	{
 	case CENTER:
-		//this->setPos(
+		this->setPos(
+			this->monitor->getSize().width / 2 - this->width / 2,
+			this->monitor->getSize().height / 2 - this->height / 2 + HEIGHT_HEAD_WINDOW
+		);
+		break;
 
-		//);
+	case UP_CENTER_SIDE:
+		this->setPos(
+			this->monitor->getSize().width / 2 - this->width / 2,
+			HEIGHT_HEAD_WINDOW
+		);
+		break;
+
+	case DOWN_CENTER_SIDE:
+		this->setPos(
+			this->monitor->getSize().width / 2 - this->width / 2,
+			this->monitor->getSize().height - HEIGHT_HEAD_WINDOW - this->height
+		);
+		break;
+
+	case LEFT_UP_CORNER:
+		this->setPos(
+			0,
+			HEIGHT_HEAD_WINDOW
+		);
+		break;
+
+	case LEFT_CENTER_SIDE:
+		this->setPos(
+			0,
+			this->monitor->getSize().height / 2 - this->height / 2 + HEIGHT_HEAD_WINDOW
+		);
+		break;
+
+	case LEFT_DOWN_CORNER:
+		this->setPos(
+			0,
+			this->monitor->getSize().height - HEIGHT_HEAD_WINDOW - this->height
+		);
+		break;
+
+	case RIGHT_UP_CORNER:
+		this->setPos(
+			this->monitor->getSize().width - this->width,
+			HEIGHT_HEAD_WINDOW
+		);
+		break;
+
+	case RIGHT_CENTER_SIDE:
+		this->setPos(
+			this->monitor->getSize().width - this->width,
+			this->monitor->getSize().height / 2 - this->height / 2 + HEIGHT_HEAD_WINDOW
+		);
+		break;
+
+	case RIGHT_DOWN_CORNER:
+		this->setPos(
+			this->monitor->getSize().width - this->width,
+			this->monitor->getSize().height - HEIGHT_HEAD_WINDOW - this->height
+		);
 		break;
 	}
 }
@@ -314,6 +375,7 @@ void Window::fullScreen(bool flag)
 		this->width = this->saveWidth;
 		this->height = this->saveHeight;
 		this->resetMonitor();
+		this->setPos(this->posX, this->posY);
 		this->setPosBuffer(0, 0);
 	}
 }

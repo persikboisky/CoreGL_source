@@ -1,6 +1,8 @@
 #include "../../include/window/Monitor.hpp"
 #include "../../include/util/coders.hpp"
 #include "../../include/util/type.hpp"
+#include "../../include/config.hpp"
+#include "../../include/util/console.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -23,6 +25,12 @@ Monitor::Monitor()
 	if (this->vidMode == nullptr)
 	{
 		throw coders(0x12);
+	}
+
+	if (CORE_INFO)
+	{
+		console::printTime();
+		std::cout << "Ok: init monitor: " << glfwGetMonitorName(this->monitor) << std::endl;
 	}
 }
 

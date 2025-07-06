@@ -172,12 +172,14 @@ namespace core
 			float blue;
 			float alpha;
 
-			RGBA() : red(0), green(0), blue(0), alpha(1.0) {}
+			RGBA() : red(0), green(0), blue(0), alpha(255.0f) {}
 			RGBA(float red, float green, float blue, float alpha = 255.0f) :
 				red(red), green(green), blue(blue), alpha(alpha)
 			{
 			}
 			RGBA(COLOR color);
+			RGBA(const RGB& color) : 
+				red(color.red), green(color.green), blue(color.blue), alpha(255.0f) { }
 
 			void operator = (const RGB& color);
 			void operator = (const RGBA& color);
