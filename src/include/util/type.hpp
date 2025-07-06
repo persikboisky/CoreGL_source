@@ -191,6 +191,8 @@ namespace core
 
 		pos2f() {}
 		pos2f(float x, float y) : x(x), y(y) {}
+
+		void operator = (const pos2f& pos);
 	};
 
 	struct pos2i final
@@ -200,6 +202,8 @@ namespace core
 
 		pos2i() {}
 		pos2i(int x, int y) : x(x), y(y) {}
+
+		void operator = (const pos2i& pos);
 	};
 
 	struct pos3f final
@@ -210,17 +214,8 @@ namespace core
 
 		pos3f() {}
 		pos3f(float x, float y, float z) : x(x), y(y), z(z) {}
-	};
 
-	struct pos4f final
-	{
-		float x = 0;
-		float y = 0;
-		float z = 0;
-		float w = 0;
-
-		pos4f() {}
-		pos4f(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+		void operator = (const pos3f& pos);
 	};
 
 	struct size2f final
@@ -232,6 +227,8 @@ namespace core
 		size2f(float width, float height) : width(width), height(height)
 		{
 		}
+
+		void operator = (const size2f& size);
 	};
 
 	struct size2i final
@@ -243,6 +240,8 @@ namespace core
 		size2i(int width, int height) : width(width), height(height)
 		{
 		}
+
+		void operator = (const size2i& size);
 	};
 
 	struct size3f final
@@ -256,6 +255,8 @@ namespace core
 			width(width), height(height), length(length)
 		{
 		}
+
+		void operator = (const size3f& size);
 	};
 
 	enum CAM_MODE
@@ -375,6 +376,19 @@ namespace core
 	};
 
 	color::RGBA convertColor(color::COLOR color);
+
+	enum POSITION
+	{
+		CENTER,
+		UP_CENTER_SIDE,
+		DOWN_CENTER_SIDE,
+		LEFT_UP_CORNER,
+		LEFT_CENTER_SIDE,
+		LEFT_DOWN_CORNER,
+		RIGHT_UP_CORNER,
+		RIGHT_CENTER_SIDE,
+		RIGHT_DOWN_CORNER
+	};
 
 }
 

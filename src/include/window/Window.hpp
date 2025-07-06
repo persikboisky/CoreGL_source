@@ -13,6 +13,8 @@ namespace core
 	struct size2i;
 	struct pos2i;
 
+	enum POSITION;
+
 	struct windowInfo
 	{
 		const char* title = "CoreGL";
@@ -32,12 +34,17 @@ namespace core
 	{
 	private:
 		GLFWwindow* window = nullptr;
-		const GLFWvidmode* vidMode;
 
 		static bool flagGLewInit;
 
 		int width;
 		int height;
+
+		int saveWidth;
+		int saveHeight;
+
+		int posX;
+		int posY;
 
 		void Init();
 		void getSizeWindow();
@@ -48,12 +55,16 @@ namespace core
 		Window(int width, int height, const char* title = "", bool resizable = true);
 		Window(const windowInfo& info);
 
+		void setMonitor(Monitor monitor);
+		void resetMonitor();
+
 	public:
 		/// @brief ���������� ������ ����, ��� GLFWwindow
 		GLFWwindow* getGLFWWindowObject();
 
 		Event* event = nullptr;
 		Cursor* cursor = nullptr;
+		Monitor* monitor = nullptr;
 
 		static Window create(const windowInfo& info);
 		static Window create(int width, int height, const char* title = "", bool resizable = true);
@@ -99,14 +110,14 @@ namespace core
 
 		void setPos(int posX, int posY);
 		void setPos(const pos2i& pos);
+		void setPos(const POSITION& pos);
 
 		void setSize(int wisth, int height);
 		void setSize(const size2i& size);
 
 		static GLFWwindow* getWindowContext();
 
-		void setMonitor(Monitor monitor);
-		void resetMonitor();
+		void fullScreen(bool flag = true);
 	};
 }
 

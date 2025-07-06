@@ -21,7 +21,7 @@ std::string core::code::load(const char* path)
     }
     else
     {
-        throw coders(0x1A, path);
+        throw coders(0x10, path);
     }
 
     if (CORE_INFO)

@@ -18,7 +18,7 @@ Timer::~Timer()
 {
 }
 
-void Timer::run()
+void Timer::start()
 {
     this->time = glfwGetTime();
 }

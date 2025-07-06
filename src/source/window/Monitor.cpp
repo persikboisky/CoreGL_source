@@ -2,72 +2,58 @@
 #include "../../include/util/coders.hpp"
 #include "../../include/util/type.hpp"
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 using namespace core;
 
 GLFWmonitor* Monitor::getGLFWObj()
 {
-	return this->monitors[this->primaryCount];
+	return this->monitor;
 }
 
-Monitor::Monitor() : count(0), primaryCount(-1)
+Monitor::Monitor()
 {
-	this->monitors = glfwGetMonitors(&this->count);
-	if (this->count == 0)
+	this->monitor = glfwGetPrimaryMonitor();
+	if (this->monitor == nullptr)
 	{
-		throw coders(0x0A);
+		throw coders(0x11);
 	}
 
-	for (int iter = 0; iter < this->count; iter++)
+	this->vidMode = glfwGetVideoMode(this->monitor);
+	if (this->vidMode == nullptr)
 	{
-		if (this->monitors[iter] == nullptr)
-		{
-			throw coders(0x0A);
-		}
-
-		this->vidModes.push_back(glfwGetVideoMode(this->monitors[iter]));
-	}
-
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	for (int iter = 0; iter < this->count; iter++) 
-	{
-		if (monitor == this->monitors[iter])
-		{
-			this->primaryCount = iter;
-			break;
-		}
+		throw coders(0x12);
 	}
 }
 
 Monitor::~Monitor()
 {
-	this->vidModes.clear();
 }
 
-size2f Monitor::getPhysicalSize()
+size2i Monitor::getPhysicalSize()
 {
 	int width;
 	int height;
 
-	glfwGetMonitorPhysicalSize(this->monitors[this->primaryCount], &width, &height);
+	glfwGetMonitorPhysicalSize(this->monitor, &width, &height);
 
-	return size2f(width, height);
+	return size2i(width, height);
 }
 
-size2f Monitor::getSize()
+size2i Monitor::getSize()
 {
-	return size2f(
-		this->vidModes[this->primaryCount]->width,
-		this->vidModes[this->primaryCount]->height
+	return size2i(
+		this->vidMode->width,
+		this->vidMode->height
 	);
 }
 
 color::RGB Monitor::getBITS()
 {
 	return color::RGB(
-		this->vidModes[this->primaryCount]->redBits,
-		this->vidModes[this->primaryCount]->greenBits,
-		this->vidModes[this->primaryCount]->blueBits
+		this->vidMode->redBits,
+		this->vidMode->greenBits,
+		this->vidMode->blueBits
 	);
 }
 

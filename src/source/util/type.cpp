@@ -482,3 +482,41 @@ color::RGBA core::convertColor(color::COLOR color)
 		return color::RGBA(0, 0, 0, 0);
 	}
 }
+
+void pos2f::operator=(const pos2f& pos)
+{
+	this->x = pos.x;
+	this->y = pos.y;
+}
+
+void pos2i::operator=(const pos2i& pos)
+{
+	this->x = pos.x;
+	this->y = pos.y;
+}
+
+void pos3f::operator=(const pos3f& pos)
+{
+	this->x = pos.x;
+	this->y = pos.y;
+	this->z = pos.z;
+}
+
+void size2f::operator=(const size2f& size)
+{
+	this->width = size.width;
+	this->height = size.height;
+}
+
+void size2i::operator=(const size2i& size)
+{
+	this->width = size.width;
+	this->height = size.height;
+}
+
+void size3f::operator=(const size3f& size)
+{
+	this->width = size.width;
+	this->height = size.height;
+	this->length = size.length;
+}

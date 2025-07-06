@@ -26,6 +26,7 @@ void Window::Init()
 {
 	this->event = new Event(*this->window);
 	this->cursor = new Cursor(*this->window);
+	this->monitor = new Monitor();
 }
 
 inline void Window::getSizeWindow()
@@ -39,8 +40,8 @@ GLFWwindow* Window::getGLFWWindowObject()
 }
 
 static void createWindow(
-	GLFWwindow*& window, const GLFWvidmode*& vidMode, int width, int height,
-	const char* title, bool resizable, bool debuginfo
+	GLFWwindow*& window, int width, int height,
+	const char* title, bool resizable, bool debugInfo
 )
 {
 	glfwWindowHint(GLFW_RESIZABLE, resizable);
@@ -51,49 +52,34 @@ static void createWindow(
 		throw coders(0x02);
 	}
 
-	if (debuginfo)
+	if (debugInfo)
 	{
 		console::printTime();
 		std::cout << "OK: to create GLFW Window" << std::endl;
 	}
-
-	//GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	//if (monitor == nullptr) 
-	//{
-
-	//}
-
-	//vidMode = glfwGetVideoMode(monitor);
-	//if (vidMode == nullptr) 
-	//{
-
-	//}
-
-	// std::cout << glfwGetMonitorName(monitor) << std::endl;
-	
-	// glfwSetWindowMonitor()
 }
 
 Window::Window(int width, int height, const char* title, bool resizable) :
-	width(width), height(height), debugInfo(CORE_INFO)
+	width(width), height(height), debugInfo(CORE_INFO), saveWidth(width), saveHeight(height)
 {
 	createWindow(
 		this->window,
-		this->vidMode,
 		width, height,
 		title,
 		resizable,
 		CORE_INFO
 	);
 
+	glfwGetWindowPos(this->window, &this->width, &this->height);
+
 	this->Init();
 }
 
-Window::Window(const windowInfo& info) : width(info.width), height(info.height), debugInfo(info.debugInfo)
+Window::Window(const windowInfo& info) : width(info.width), height(info.height), debugInfo(info.debugInfo),
+	saveWidth(info.width), saveHeight(info.height)
 {
 	createWindow(
 		this->window,
-		this->vidMode,
 		info.width,
 		info.height,
 		info.title,
@@ -113,6 +99,8 @@ Window::Window(const windowInfo& info) : width(info.width), height(info.height),
 	{
 		glfwSetWindowPos(this->window, info.posX, info.posY);
 	}
+
+	glfwGetWindowPos(this->window, &this->width, &this->height);
 }
 
 Window Window::create(const windowInfo& info)
@@ -122,18 +110,14 @@ Window Window::create(const windowInfo& info)
 
 Window Window::create(int width, int height, const char* title, bool resizable)
 {
-	windowInfo winInfo = {};
-	winInfo.width = width;
-	winInfo.height = height;
-	winInfo.title = title;
-	winInfo.resizable = resizable;
-	return Window(winInfo);
+	return Window(width, height, title, resizable);
 }
 
 Window::~Window()
 {
 	delete this->cursor;
 	delete this->event;
+	delete this->monitor;
 	glfwDestroyWindow(this->window);
 }
 
@@ -279,6 +263,18 @@ void Window::setPos(const pos2i& pos)
 	this->setPos(pos.x, pos.y);
 }
 
+void Window::setPos(const POSITION& pos)
+{
+	switch (pos)
+	{
+	case CENTER:
+		//this->setPos(
+
+		//);
+		break;
+	}
+}
+
 void Window::setSize(int width, int height)
 {
 	glfwSetWindowSize(this->window, width, height);
@@ -296,10 +292,28 @@ GLFWwindow* Window::getWindowContext()
 
 void Window::setMonitor(Monitor monitor)
 {
-	glfwSetWindowMonitor(this->window, monitor.getGLFWObj(), 0, 0, this->width, this->height, 75);
+	glfwSetWindowMonitor(this->window, monitor.getGLFWObj(), 0, 0, monitor.getSize().width, monitor.getSize().height, 75);
 }
 
 void Window::resetMonitor()
 {
 	glfwSetWindowMonitor(this->window, nullptr, 0, 0, this->width, this->height, GLFW_DONT_CARE);
+}
+
+void Window::fullScreen(bool flag)
+{
+	if (flag)
+	{
+		this->saveWidth = this->width;
+		this->saveHeight = this->height;
+		this->setMonitor(*this->monitor);
+		this->setPosBuffer(0, 0);
+	}
+	else
+	{
+		this->width = this->saveWidth;
+		this->height = this->saveHeight;
+		this->resetMonitor();
+		this->setPosBuffer(0, 0);
+	}
 }

@@ -22,7 +22,7 @@ namespace core
         ~Timer();
 
         /// @brief запускает таймер
-        void run();
+        void start();
 
         /// @brief останавливает таймер
         void stop();
